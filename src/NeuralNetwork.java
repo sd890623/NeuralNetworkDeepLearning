@@ -32,7 +32,8 @@ public class NeuralNetwork
 		static int[] hiddenNodesNums;
 		static Double[] error=new Double[10];
 
-		//input something like NeuralNetwork(4,"100,100,100,50,0,0xxxxx")
+		
+		//Neural Network Constructor
 		public NeuralNetwork(int hiddenLayerNum,String hiddenLayerNodesNum,int inputSampleNum) throws IOException
 			{
 				
@@ -44,6 +45,8 @@ public class NeuralNetwork
 				readInput(inputSampleNum);
 			}
 		
+		
+		//Dertermine neural Network structure with hidden layers
 		public void determineStructure(int hiddenLayerNum,String hiddenLayerNodesNum)
 			{
 				String[] ArrayNodeNum=hiddenLayerNodesNum.split(",");
@@ -63,6 +66,9 @@ public class NeuralNetwork
 						hidden_thresholds.add(hiddenToHiddenThreshold);
 					}
 			}
+		
+		
+		//Import training data
 		public void readInput(int inputSampleNum) throws IOException
 			{
 				BufferedReader br = new BufferedReader(new FileReader("/Users/Otakuftf/Desktop/train.csv"));
@@ -86,6 +92,9 @@ public class NeuralNetwork
 					}
 				System.err.print("Reading Input finished"+"\n");
 			}
+		
+		
+		//Initialize neural network model
 		public static void initialize()
 			{
 				DecimalFormat df = new DecimalFormat("0.00000");
@@ -139,6 +148,9 @@ public class NeuralNetwork
 					}
 				System.err.print("Initializing finished\n");
 			}
+		
+		
+		//1st time training
 		public void trainOnce()
 			{	
 				for(int w=0;w<inputSampleNum;w++)
@@ -274,6 +286,9 @@ public class NeuralNetwork
 							}
 					}
 			}
+		
+		
+		//Notify users the train stopped with success
 		public Double train(int times)
 			{
 			    double a=0;
@@ -292,6 +307,9 @@ public class NeuralNetwork
 				
 				return a;
 			}
+		
+		
+		//Determine whether to stop with conditions set
 		private static double checkToStop()
 			{
 				double count=0;
@@ -305,7 +323,10 @@ public class NeuralNetwork
 					}
 						return count/inputSampleNum;
 			}
-		//Only for stage1 prediction
+		
+		
+		
+		//Output stage1 prediction
 		public static void prediction() throws IOException
 		{
 			inputTest=new Double[10000][25];
@@ -369,6 +390,9 @@ public class NeuralNetwork
 			out.print(result);
 			out.close();
 		}
+		
+	
+		//Belows are supporting maths functions 
 		public static Double ActivationFunction(Double x)
 			{
 				//tanh z=sinh z/cosh z=(e 2z -1)/(e 2z +1)
@@ -382,13 +406,14 @@ public class NeuralNetwork
 						Float fx=x.floatValue();
 				return new Double((Math.pow(Math.E, 2*fx)-1)/(Math.pow(Math.E, 2*fx)+1));
 			}
+		
 		public static Double DerivativeActive(Double x)
 			{
 				//square of sech(x)
 				Float fx=x.floatValue();
-				return new Double(((2/(Math.pow(Math.E, fx)+Math.pow(Math.E, -fx)))*(2/(Math.pow(Math.E, fx)+Math.pow(Math.E, -fx)))
-));				
+				return new Double(((2/(Math.pow(Math.E, fx)+Math.pow(Math.E, -fx)))*(2/(Math.pow(Math.E, fx)+Math.pow(Math.E, -fx)))));				
 			}
+		
 		public static int findLargestColumn(Double[] input)
 			{
 				Double largest=-1.0;
@@ -415,4 +440,6 @@ public class NeuralNetwork
 					}
 				return 30;
 			}
+		
+	//Class ends
 	}
